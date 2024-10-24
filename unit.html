@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Unit Converter</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1cb5e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 450px;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #007bff;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2em;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 1.5em;
+            color: white;
+            background-color: #28a745;
+            border-radius: 10px;
+            display: none;
+        }
+        .result.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Digital Unit Converter</h1>
+        <form id="converterForm">
+            <div class="form-group">
+                <label for="unit_from">Convert From:</label>
+                <select id="unit_from" required>
+                    <option value="volt">Voltage (V)</option>
+                    <option value="amp">Amperes (A)</option>
+                    <option value="ohm">Ohms (Ω)</option>
+                    <option value="farad">Farads (F)</option>
+                    <option value="henry">Henrys (H)</option>
+                    <option value="coulomb">Coulombs (C)</option>
+                    <option value="watt">Watts (W)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="unit_to">Convert To:</label>
+                <select id="unit_to" required>
+                    <option value="volt">Voltage (V)</option>
+                    <option value="amp">Amperes (A)</option>
+                    <option value="ohm">Ohms (Ω)</option>
+                    <option value="farad">Farads (F)</option>
+                    <option value="henry">Henrys (H)</option>
+                    <option value="coulomb">Coulombs (C)</option>
+                    <option value="watt">Watts (W)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="input_value_1">Input Value 1:</label>
+                <input type="number" id="input_value_1" step="any" required>
+            </div>
+            <div class="form-group">
+                <label for="input_value_2">Input Value 2 (Optional):</label>
+                <input type="number" id="input_value_2" step="any">
+            </div>
+            <button type="button" onclick="convert()">Convert</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function convert() {
+            const unitFrom = document.getElementById('unit_from').value;
+            const unitTo = document.getElementById('unit_to').value;
+            const inputValue1 = parseFloat(document.getElementById('input_value_1').value);
+            const inputValue2 = parseFloat(document.getElementById('input_value_2').value || 0);
+            let result;
+
+            try {
+                // Conversion logic based on unitFrom and unitTo
+                if (unitFrom === 'volt' && unitTo === 'amp') {
+                    result = inputValue1 / inputValue2; // I = V/R
+                } else if (unitFrom === 'amp' && unitTo === 'volt') {
+                    result = inputValue1 * inputValue2; // V = IR
+                } else if (unitFrom === 'ohm' && unitTo === 'volt') {
+                    result = inputValue1 * inputValue2; // V = IR
+                } else if (unitFrom === 'farad' && unitTo === 'coulomb') {
+                    result = inputValue1 * inputValue2; // C = CV
+                } else if (unitFrom === 'watt' && unitTo === 'volt') {
+                    result = inputValue1 / inputValue2; // V = P/I
+                } else if (unitFrom === 'volt' && unitTo === 'watt') {
+                    result = inputValue1 * inputValue2; // P = VI
+                } else if (unitFrom === 'amp' && unitTo === 'watt') {
+                    result = inputValue1 * inputValue2; // P = VI
+                } else {
+                    result = 'Conversion not supported for these units.';
+                }
+
+                document.getElementById('result').innerText = `Result: ${result.toFixed(2)}`;
+                document.getElementById('result').classList.add('show');
+                setTimeout(() => {
+                    document.getElementById('result').classList.remove('show');
+                }, 5000);
+            } catch (error) {
+                document.getElementById('result').innerText = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

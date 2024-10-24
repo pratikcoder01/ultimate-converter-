@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Converter Tool</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet"> <!-- Add this line -->
+    <style>        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Make body take at least the full height of the viewport */
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            flex: 1; /* Allow the container to grow and fill the space */
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Typing Animation for h1 */
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif; /* Set the futuristic font */
+            font-size: 4rem;
+            font-weight: bold;
+            color: #000874;
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 4px solid; /* Cursor effect */
+            width: 100%; /* Initially set to 0, animated later */
+            animation: typing 2.5s steps(40, end), blink 0.75s step-end infinite; /* Shortened duration */
+            margin: 0;
+            text-shadow: 0 0 10px rgba(51, 0, 255, 0.8), 0 0 20px rgba(0, 68, 255, 0.8); /* Glow effect */
+        }
+
+        .converter-section {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .converter-card {
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: calc(30% - 40px);
+            margin: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .converter-card:hover {
+            transform: translateY(-5px);
+        }
+        .btn-3d {
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        .btn-3d:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            width: 100%;
+            position: relative;
+        }
+        .footer a {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .converter-card {
+                width: calc(100% - 40px); /* Full width on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Ultimate Converter Tool</h1>
+        </div>
+            
+        <div class="converter-section">
+            <div class="converter-card">
+                <h2>Digital Unit Converter</h2>
+                <img src="/img/unit.jpg" alt="Electronic Converter" style="width: 99%; height: auto;">
+                <button class="btn-3d" onclick="location.href='unit.html'">Click Me</button> 
+            </div>
+            <div class="converter-card">
+                <h2>Number System Converter</h2>
+                <img src="/img/1.png" alt="Number Converter" style="width: 99%; height: auto;">
+                <button class="btn-3d" onclick="location.href='number.html'">Click Me</button>
+            </div>
+            <div class="converter-card">
+                <h2>Bytes Converter</h2>
+                <img src="/img/OVM.jpg" alt="bytes Converter" style="width: 99%; height: auto;">
+                <button class="btn-3d" onclick="location.href='bytes.html'">Click Me</button>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Contact Information: <a href="mailto:pratiknagrale12@fmail.com">pratiknagrale12@fmail.com</a></p>
+
+    </div>
+</body>
+</html>

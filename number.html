@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number System Converter</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1cb5e0; /* Set background color */
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+            position: relative;
+            z-index: 1;
+        }
+        .container:hover {
+            transform: scale(1.02);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: .15em solid #007bff;
+            animation: typing 3s steps(30, end), blink-caret .75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #007bff; }
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, select:focus {
+            border-color: #0056b3;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 24px;
+            text-align: center;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: .15em solid #007bff;
+            animation: typing 3s steps(10, end) forwards;
+            opacity: 0;
+        }
+        .result.show {
+            opacity: 1;
+        }
+        .output-section {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .output-item {
+            margin: 5px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Number System Converter</h1>
+        <form id="converterForm">
+            <div class="form-group">
+                <label for="inputValue">Enter First Value</label>
+                <input type="text" name="inputValue" id="inputValue" required>
+            </div>
+            <div class="form-group">
+                <label for="secondValue">Enter Second Value</label>
+                <input type="text" name="secondValue" id="secondValue" required>
+            </div>
+            <div class="form-group">
+                <label for="inputBase">Select Input Base</label>
+                <select name="inputBase" id="inputBase" required>
+                    <option value="binary">Binary (Base 2)</option>
+                    <option value="decimal">Decimal (Base 10)</option>
+                    <option value="octal">Octal (Base 8)</option>
+                    <option value="hexadecimal">Hexadecimal (Base 16)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="outputBase">Select Output Bases</label>
+                <select name="outputBase" id="outputBase" multiple required>
+                    <option value="binary">Binary (Base 2)</option>
+                    <option value="decimal">Decimal (Base 10)</option>
+                    <option value="octal">Octal (Base 8)</option>
+                    <option value="hexadecimal">Hexadecimal (Base 16)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="operation">Select Operation</label>
+                <select name="operation" id="operation" required>
+                    <option value="convert">Convert Number</option>
+                    <option value="addition">Binary Addition</option>
+                    <option value="subtraction">Binary Subtraction</option>
+                    <option value="multiplication">Binary Multiplication</option>
+                    <option value="division">Binary Division</option>
+                    <option value="bcdAddition">BCD Addition</option>
+                    <option value="bcdSubtraction">BCD Subtraction</option>
+                </select>
+            </div>
+            <button type="button" onclick="calculate()">Calculate</button>
+        </form>
+
+        <!-- Display the result -->
+        <div class="output-section" id="outputSection"></div>
+    </div>
+
+    <script>
+        function calculate() {
+            const inputValue = document.getElementById('inputValue').value;
+            const secondValue = document.getElementById('secondValue').value;
+            const inputBase = document.getElementById('inputBase').value;
+            const outputBaseOptions = Array.from(document.getElementById('outputBase').selectedOptions);
+            const outputBases = outputBaseOptions.map(option => option.value);
+            const operation = document.getElementById('operation').value;
+            let decimalValue, decimalSecondValue;
+
+            // Convert input to decimal
+            if (inputBase === 'binary') {
+                decimalValue = parseInt(inputValue, 2);
+                decimalSecondValue = parseInt(secondValue, 2);
+            } else if (inputBase === 'octal') {
+                decimalValue = parseInt(inputValue, 8);
+                decimalSecondValue = parseInt(secondValue, 8);
+            } else if (inputBase === 'hexadecimal') {
+                decimalValue = parseInt(inputValue, 16);
+                decimalSecondValue = parseInt(secondValue, 16);
+            } else {
+                decimalValue = parseFloat(inputValue); // Decimal base
+                decimalSecondValue = parseFloat(secondValue);
+            }
+
+            // Clear previous results
+            const outputSection = document.getElementById('outputSection');
+            outputSection.innerHTML = '';
+
+            // Handle different operations
+            if (operation === 'convert') {
+                // Convert decimal to the desired output bases
+                outputBases.forEach(base => {
+                    let result;
+                    if (base === 'binary') {
+                        result = decimalValue.toString(2);
+                    } else if (base === 'octal') {
+                        result = decimalValue.toString(8);
+                    } else if (base === 'hexadecimal') {
+                        result = decimalValue.toString(16).toUpperCase();
+                    } else {
+                        result = decimalValue; // Decimal base
+                    }
+
+                    // Display result
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'output-item';
+                    resultItem.innerText = `${base.charAt(0).toUpperCase() + base.slice(1)}: ${result}`;
+                    outputSection.appendChild(resultItem);
+                });
+            } else if (operation === 'addition' || operation === 'subtraction') {
+                let result;
+
+                if (operation === 'addition') {
+                    result = decimalValue + decimalSecondValue;
+                } else {
+                    result = decimalValue - decimalSecondValue;
+                }
+
+                // Display the result of binary addition/subtraction
+                const resultItem = document.createElement('div');
+                resultItem.className = 'output-item';
+                resultItem.innerText = `Result: ${result.toString(2)}`; // Convert result back to binary
+                outputSection.appendChild(resultItem);
+            } else if (operation === 'multiplication') {
+                const result = decimalValue * decimalSecondValue;
+
+                // Display the result of binary multiplication
+                const resultItem = document.createElement('div');
+                resultItem.className = 'output-item';
+                resultItem.innerText = `Result: ${result.toString(2)}`; // Convert result back to binary
+                outputSection.appendChild(resultItem);
+            } else if (operation === 'division') {
+                const result = decimalValue / decimalSecondValue;
+
+                // Display the result of binary division
+                const resultItem = document.createElement('div');
+                resultItem.className = 'output-item';
+                resultItem.innerText = `Result: ${result.toString(2)}`; // Convert result back to binary
+                outputSection.appendChild(resultItem);
+            }
+        }
+    </script>
+</body>
+</html>

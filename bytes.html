@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bytes Converter</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1cb5e0, #000046);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .container:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.2s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            box-shadow: 0 5px 15px rgba(28, 181, 224, 0.3);
+        }
+
+        .convert-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #1cb5e0;
+            color: #fff;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .convert-btn:hover {
+            background-color: #000046;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f1f1f1;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .result span {
+            color: #1cb5e0;
+        }
+
+        /* Smooth animations */
+        .container, input, select, .convert-btn, .result {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Bytes Converter</h1>
+
+    <label for="inputValue">Enter value:</label>
+    <input type="number" id="inputValue" placeholder="Enter a value" required>
+
+    <label for="fromUnit">From:</label>
+    <select id="fromUnit">
+        <option value="bytes">Bytes</option>
+        <option value="kilobytes">Kilobytes</option>
+        <option value="megabytes">Megabytes</option>
+        <option value="gigabytes">Gigabytes</option>
+        <option value="terabytes">Terabytes</option>
+    </select>
+
+    <label for="toUnit">To:</label>
+    <select id="toUnit">
+        <option value="bytes">Bytes</option>
+        <option value="kilobytes">Kilobytes</option>
+        <option value="megabytes">Megabytes</option>
+        <option value="gigabytes">Gigabytes</option>
+        <option value="terabytes">Terabytes</option>
+    </select>
+
+    <button class="convert-btn" onclick="convert()">Convert</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function convert() {
+        const inputValue = parseFloat(document.getElementById('inputValue').value);
+        const fromUnit = document.getElementById('fromUnit').value;
+        const toUnit = document.getElementById('toUnit').value;
+
+        if (isNaN(inputValue)) {
+            document.getElementById('result').innerHTML = "Please enter a valid number.";
+            return;
+        }
+
+        const unitValues = {
+            bytes: 1,
+            kilobytes: 1024,
+            megabytes: 1024 * 1024,
+            gigabytes: 1024 * 1024 * 1024,
+            terabytes: 1024 * 1024 * 1024 * 1024
+        };
+
+        const convertedValue = (inputValue * unitValues[fromUnit]) / unitValues[toUnit];
+        document.getElementById('result').innerHTML = `<span>${inputValue}</span> ${fromUnit} = <span>${convertedValue.toFixed(2)}</span> ${toUnit}`;
+    }
+</script>
+
+</body>
+</html>
